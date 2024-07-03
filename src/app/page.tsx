@@ -10,9 +10,8 @@ const Confetti = dynamic(() => import("react-confetti"), { ssr: false });
 export default function Home() {
   const [age, setAge] = useState(0);
 
-  // Calculate age and next birthday timer
   useEffect(() => {
-    const birthDate = new Date("2001-07-03"); // Replace with actual birth date
+    const birthDate = new Date("2001-07-03");
     const today = new Date();
     const currentYear = today.getFullYear();
     const nextBirthdayDate = new Date(
@@ -43,14 +42,18 @@ export default function Home() {
       audio.addEventListener("ended", () => playNextAudio(index + 1));
     };
 
-    playNextAudio(0);
+    const init = async () => {
+      await navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then(() => {
+          playNextAudio(0);
+        })
+        .catch(() => {
+          console.log("audio permission denied");
+        });
+    };
+    init();
   }, []);
-
-  // useEffect(() => {
-  //   const audio = new Audio("/audio1.mp3");
-  //   audio.loop = true;
-  //   audio.play();
-  // }, []);
 
   return (
     <div className={styles.container}>
