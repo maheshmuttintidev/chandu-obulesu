@@ -32,11 +32,12 @@ export default function Home() {
   const audioSources = ["/audio3.mp3", "/audio1.mp3", "/audio2.mp3"];
 
   useEffect(() => {
-    const playNextAudio = (index) => {
+    const playNextAudio = (index: any) => {
       if (index >= audioSources.length) {
         index = 0;
       }
       const audio = new Audio(audioSources[index]);
+      // @ts-ignore
       audioRefs.current[index] = audio;
       audio.play();
       audio.addEventListener("ended", () => playNextAudio(index + 1));
